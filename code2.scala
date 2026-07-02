@@ -1,29 +1,27 @@
-object Statistics {
+import scala.util.Random
+
+object Practical2 {
+
   def mean(list: List[Double]): Double = {
     list.sum / list.length
   }
 
-  def median(list: List[Double]): Double = {
-    val sorted = list.sorted
-    val n = sorted.length
-    if (n % 2 == 0)
-      (sorted(n/2 - 1) + sorted(n/2)) / 2.0
-    else
-      sorted(n/2)
+  def variance(list: List[Double]): Double = {
+    val m = mean(list)
+    list.map(x => math.pow(x - m, 2)).sum / list.length
   }
 
-  def mode(list: List[Double]): List[Double] = {
-    val grouped = list.groupBy(x => x).mapValues(_.size)
-    val maxCount = grouped.values.max
-    grouped.filter(_._2 == maxCount).keys.toList
+  def stdDev(list: List[Double]): Double = {
+    math.sqrt(variance(list))
   }
 
   def main(args: Array[String]): Unit = {
-    val numbers = List(10.0, 20.0, 20.0, 30.0, 40.0, 50.0, 20.0)
+    val random = new Random()
+    val numbers = List.fill(10)(random.nextInt(100).toDouble)
 
-    println("Numbers: " + numbers)
+    println("Random Numbers: " + numbers)
     println("Mean: " + mean(numbers))
-    println("Median: " + median(numbers))
-    println("Mode: " + mode(numbers))
+    println("Variance: " + variance(numbers))
+    println("Standard Deviation: " + stdDev(numbers))
   }
 }
